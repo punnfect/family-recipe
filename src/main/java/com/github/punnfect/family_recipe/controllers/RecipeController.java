@@ -14,8 +14,12 @@ import java.util.Optional;
 @RequestMapping("/api/recipes")
 public class RecipeController {
 
+    private final RecipeService recipeService;
+
     @Autowired
-    private RecipeService recipeService;
+    public RecipeController(RecipeService recipeService) {
+        this.recipeService = recipeService;
+    }
 
     @GetMapping
     public List<RecipeDto> getAllRecipes() {

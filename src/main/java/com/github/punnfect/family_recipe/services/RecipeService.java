@@ -19,12 +19,16 @@ import java.util.stream.Collectors;
 @Service
 public class RecipeService {
 
+    private final RecipeRepository recipeRepository;
+    private final FamilyRepository familyRepository;
+    private final RecipeMapper recipeMapper;
+
     @Autowired
-    private RecipeRepository recipeRepository;
-    @Autowired
-    private FamilyRepository familyRepository;
-    @Autowired
-    private RecipeMapper recipeMapper;
+    public RecipeService(RecipeRepository recipeRepository, FamilyRepository familyRepository, RecipeMapper recipeMapper) {
+        this.recipeRepository = recipeRepository;
+        this.familyRepository = familyRepository;
+        this.recipeMapper = recipeMapper;
+    }
 
     @Transactional(readOnly = true)
     public List<RecipeDto> getAllRecipes() {
