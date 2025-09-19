@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,4 +47,23 @@ public class RecipeService {
         }
         return List.of();
     }
+
+    @Transactional(readOnly = true)
+    public List<RecipeDto> getRecipesByRecipeName(String name) {
+        return recipeRepository.findByNameContainingIgnoreCase(name).stream()
+                .map(recipeMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<RecipeDto> getRecipesByFamilyName(String familyName) {
+        Optional<Family> familyOptional = familyRepository.findByNameIgnoreCase(familyName);
+        if (familyOptional.isPresent()) {
+            return recipeRepository.findByFamily(familyOptional.get()).stream()
+                    .map(recipeMapper::toDto)
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
+
 }

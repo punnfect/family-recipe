@@ -32,4 +32,20 @@ public class RecipeController {
     public List<RecipeDto> getRecipesByFamily(@PathVariable Integer familyId) {
         return recipeService.getRecipesByFamilyId(familyId);
     }
+
+    @GetMapping("/search")
+    public List<RecipeDto> searchRecipes(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String family) {
+
+        if (name != null) {
+            return recipeService.getRecipesByRecipeName(name);
+        }
+
+        if (family != null) {
+            return recipeService.getRecipesByFamilyName(family);
+        }
+
+        return List.of();
+    }
 }

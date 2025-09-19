@@ -10,7 +10,12 @@ import java.util.List;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
+
+    @EntityGraph(attributePaths = {"ingredients", "instructions", "family"})
     List<Recipe> findByFamily(Family family);
+
+    @EntityGraph(attributePaths = {"ingredients", "instructions", "family"})
+    List<Recipe> findByNameContainingIgnoreCase(String name);
 
     @Override
     @EntityGraph(attributePaths = {"ingredients", "instructions", "family"})
