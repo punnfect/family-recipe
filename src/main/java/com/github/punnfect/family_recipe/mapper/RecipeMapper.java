@@ -44,4 +44,14 @@ public class RecipeMapper {
 
         return dto;
     }
+
+    public RecipeSummaryDto toSummaryDto(Recipe recipe) {
+        if (recipe == null) {
+            return null;
+        }
+        RecipeSummaryDto summaryDto = new RecipeSummaryDto();
+        summaryDto.setId(recipe.getId());
+        summaryDto.setName(recipe.getName());
+        return summaryDto;
+    }
 }

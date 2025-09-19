@@ -1,6 +1,7 @@
 package com.github.punnfect.family_recipe.controllers;
 
 import com.github.punnfect.family_recipe.dto.RecipeDto;
+import com.github.punnfect.family_recipe.dto.RecipeSummaryDto;
 import com.github.punnfect.family_recipe.services.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,11 @@ public class RecipeController {
         return recipeService.getAllRecipes();
     }
 
+    @GetMapping("/summaries")
+    public List<RecipeSummaryDto> getAllRecipeSummaries() {
+        return recipeService.getAllRecipeSummaries();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<RecipeDto> getRecipeById(@PathVariable Integer id) {
         Optional<RecipeDto> recipe = recipeService.getRecipeById(id);
@@ -34,7 +40,7 @@ public class RecipeController {
     }
 
     @GetMapping("/search")
-    public List<RecipeDto> searchRecipes(
+    public List<RecipeSummaryDto> searchRecipes(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String family) {
 
@@ -48,4 +54,5 @@ public class RecipeController {
 
         return List.of();
     }
+
 }
