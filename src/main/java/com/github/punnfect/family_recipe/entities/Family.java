@@ -20,5 +20,5 @@ public class Family {
     private String name;
 
     @OneToMany(mappedBy = "family")
-    private List<Recipe> recipes = new ArrayList<>();;
+    private List<Recipe> recipes = new ArrayList<>();
 }

@@ -40,7 +40,7 @@ public class Recipe {
     private Family family;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Instruction> instructions = new ArrayList<>();;
+    private List<Instruction> instructions = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -48,5 +48,5 @@ public class Recipe {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
-    private Set<Ingredient> ingredients = new HashSet<>();;
+    private Set<Ingredient> ingredients = new HashSet<>();
 }
