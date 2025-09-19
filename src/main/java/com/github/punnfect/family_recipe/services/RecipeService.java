@@ -1,39 +1,49 @@
 package com.github.punnfect.family_recipe.services;
 
+
+import com.github.punnfect.family_recipe.dto.RecipeDto;
 import com.github.punnfect.family_recipe.entities.Family;
-import com.github.punnfect.family_recipe.entities.Recipe;
+import com.github.punnfect.family_recipe.mapper.RecipeMapper;
 import com.github.punnfect.family_recipe.repository.FamilyRepository;
 import com.github.punnfect.family_recipe.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RecipeService {
 
     @Autowired
     private RecipeRepository recipeRepository;
-
     @Autowired
     private FamilyRepository familyRepository;
+    @Autowired
+    private RecipeMapper recipeMapper;
 
-    public List<Recipe> getAllRecipes() {
-        return recipeRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<RecipeDto> getAllRecipes() {
+        return recipeRepository.findAll().stream()
+                .map(recipeMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Recipe> getRecipeById(Integer id) {
-        return recipeRepository.findById(id);
+    @Transactional(readOnly = true)
+    public Optional<RecipeDto> getRecipeById(Integer id) {
+        return recipeRepository.findById(id).map(recipeMapper::toDto);
     }
 
-    public List<Recipe> getRecipesByFamilyId(Integer familyId) {
+    @Transactional(readOnly = true)
+    public List<RecipeDto> getRecipesByFamilyId(Integer familyId) {
         Optional<Family> familyOptional = familyRepository.findById(familyId);
         if (familyOptional.isPresent()) {
-            return recipeRepository.findByFamily(familyOptional.get());
-        } else {
-            return Collections.emptyList();
+            return recipeRepository.findByFamily(familyOptional.get()).stream()
+                    .map(recipeMapper::toDto)
+                    .collect(Collectors.toList());
         }
+        return List.of();
     }
 }

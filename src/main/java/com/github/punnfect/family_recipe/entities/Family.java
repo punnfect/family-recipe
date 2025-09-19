@@ -1,13 +1,19 @@
 package com.github.punnfect.family_recipe.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "families")
 public class Family {
@@ -20,5 +26,6 @@ public class Family {
     private String name;
 
     @OneToMany(mappedBy = "family")
+    @JsonIgnore
     private List<Recipe> recipes = new ArrayList<>();
 }

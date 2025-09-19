@@ -2,6 +2,9 @@ package com.github.punnfect.family_recipe.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -10,7 +13,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "recipes")
 public class Recipe {
@@ -40,7 +45,8 @@ public class Recipe {
     private Family family;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Instruction> instructions = new ArrayList<>();
+    @OrderBy("stepNumber ASC")
+    private Set<Instruction> instructions = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
